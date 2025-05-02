@@ -18,26 +18,27 @@ function Window() {
 
       localStorage.setItem("MainWindow", JSON.stringify(values));
     }
-  }, []);
+  }, []);  
 
   useEffect(() => {
     const mouseMovement = (e: MouseEvent) => {
       handleMouseMovement({ e, isDragging, offSet, windowRef, setPosition });
-      changeWindowState("MainWindow", isOpen, position, setIsOpen);
     };
 
     const mouseUp = () => {
-      handleMouseUp(setIsDragging);      
+      handleMouseUp(setIsDragging);
     };
 
     window.addEventListener("mousemove", mouseMovement);
     window.addEventListener("mouseup", mouseUp);
-    window.addEventListener("blur", mouseUp);
+    window.addEventListener("blur", mouseUp);  
+
+    changeWindowState("MainWindow", isOpen, position, setIsOpen);                  
 
     return () => {
       window.removeEventListener("mousemove", mouseMovement);
       window.removeEventListener("mouseup", mouseUp);
-      window.removeEventListener("blur", mouseUp);
+      window.removeEventListener("blur", mouseUp);      
     };
   }, [isDragging, offSet]);
 
