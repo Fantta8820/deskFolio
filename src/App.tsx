@@ -1,6 +1,6 @@
 import "./App.css";
 import TaskBar from "./components/taskBar/TaskBar.tsx";
-import MainWindow from "./components/windows/MainWindow.tsx";
+import MainWindow from "./components/windows/Main/MainWindow.tsx";
 
 function App() {
   return (

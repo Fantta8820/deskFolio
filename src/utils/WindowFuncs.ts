@@ -1,5 +1,5 @@
 //prettier-ignore
-import { HandleMouseMovementParams, handleMovementDown } from "./../types/drag.types";
+import { HandleMouseMovementParams, handleMovementDown, Position } from "./../types/drag.types";
 
 //prettier-ignore
 export function handleMouseDown({e, windowRef, setOffSet, setIsDragging }: handleMovementDown) {
@@ -44,4 +44,25 @@ export function handleMouseMovement({ e, isDragging, offSet, windowRef, setPosit
 //prettier-ignore
 export function handleMouseUp(setIsDragging: (value: React.SetStateAction<Boolean>) => void){
   setIsDragging(false);
+}
+
+export function setLocalStorageValues() {
+  let isOpen: boolean;
+  let position: { x: number; y: number };
+
+  if (localStorage.getItem("MainWindow")) {
+    const items = localStorage.getItem("MainWindow");
+    isOpen = JSON.parse(items!).isOpen;
+    position = JSON.parse(items!).position;
+  } else {
+    isOpen = true;
+    position = {
+      x: innerWidth / 2 - ((innerWidth / 6) * 3) / 2,
+      y: innerHeight / 2 - ((innerHeight / 5) * 3) / 2,
+    };
+  }
+
+  return {
+    isOpen, position
+  }
 }
