@@ -10,12 +10,10 @@ export function useDraggableHooks() {
   const [isDragging, setIsDragging] = useState<Boolean>(false);
   //prettier-ignore
   const [position, setPosition] = useState<Position>(items.position); //todo: Aplicar responsividade
-  const [offSet, setOffSet] = useState<Position>({ x: 0, y: 0 });
-
-  const [isOpen, setIsOpen] = useState<boolean>(items.isOpen);
+  const [offSet, setOffSet] = useState<Position>({ x: 0, y: 0 });  
 
   //prettier-ignore
   return {    
-    windowRef, isDragging, setIsDragging, position, setPosition, offSet, setOffSet, isOpen, setIsOpen
+    windowRef, isDragging, setIsDragging, position, setPosition, offSet, setOffSet
   }
 }

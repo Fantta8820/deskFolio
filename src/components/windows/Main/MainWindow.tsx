@@ -1,34 +1,33 @@
 import { MouseEventHandler, useEffect } from "react";
 //prettier-ignore
-import { handleMouseDown, handleMouseMovement, handleMouseUp } from "../../../utils/WindowFuncs";
+import { changeWindowState, handleMouseDown, handleMouseMovement, handleMouseUp } from "../../../utils/WindowFuncs";
 import { useDraggableHooks } from "../../../hooks/useDraggableHooks";
 import AboutIcons from "./AboutIcons";
 import CloseButton from "../../CloseButton";
+import { useOpenHooks } from "../../../contexts/WindowContext";
 
 function Window() {
   //prettier-ignore
-  const {windowRef, isDragging, setIsDragging, position, setPosition, offSet, setOffSet, isOpen, setIsOpen} = useDraggableHooks();
+  const {windowRef, isDragging, setIsDragging, position, setPosition, offSet, setOffSet } = useDraggableHooks();
+  const { isOpen, setIsOpen } = useOpenHooks();
 
   useEffect(() => {
     if (!localStorage.getItem("MainWindow")) {
       //prettier-ignore
-      const values: {isOpen: boolean, position: {x: number, y: number}} = {isOpen: false, position: { x: innerWidth / 2 - ((innerWidth / 6) * 3) / 2, y: innerHeight / 2 - ((innerHeight / 5) * 3) / 2 }};
+      const values: {isOpen: boolean, position: {x: number, y: number}} = {isOpen: true, position: { x: innerWidth / 2 - ((innerWidth / 6) * 3) / 2, y: innerHeight / 2 - ((innerHeight / 5) * 3) / 2 }};
 
-      localStorage.setItem("MainWindow", JSON.stringify(values));      
+      localStorage.setItem("MainWindow", JSON.stringify(values));
     }
-
-    const item = localStorage.getItem("MainWindow")
-    console.log(isOpen);
-    console.log(position);
   }, []);
 
   useEffect(() => {
     const mouseMovement = (e: MouseEvent) => {
       handleMouseMovement({ e, isDragging, offSet, windowRef, setPosition });
+      changeWindowState("MainWindow", isOpen, position, setIsOpen);
     };
 
     const mouseUp = () => {
-      handleMouseUp(setIsDragging);
+      handleMouseUp(setIsDragging);      
     };
 
     window.addEventListener("mousemove", mouseMovement);
@@ -48,7 +47,9 @@ function Window() {
 
   return (
     <main
-      className="w-3/6 h-3/5 bg-gray-500 m-0 select-none"
+      className={`w-3/6 h-3/5 bg-gray-500 m-0 select-none ${
+        !isOpen ? "hidden" : "visible"
+      }`}
       style={{ position: "absolute", left: position.x, top: position.y }}
       ref={windowRef}
     >
@@ -57,8 +58,8 @@ function Window() {
         onMouseDown={mouseDown}
       >
         <h1 className="text-center text-white">Bem Vindo</h1>
-        <CloseButton />
       </nav>
+      <CloseButton windowName="MainWindow" isOpen={false} position={position} />
       <section className="flex flex-col justify-center items-center w-full h-11/12">
         <div className="flex flex-col items-center justify-center absolute top-50">
           <h1 className="text-center text-5xl text-white font-semibold italic">
