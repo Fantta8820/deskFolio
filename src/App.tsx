@@ -7,7 +7,7 @@ function App() {
   return (
     <WindowProvider>
       <main className="w-full h-svh bg-gray-600">
-        <MainWindow />
+        <MainWindow />        
         <TaskBar />
       </main>
     </WindowProvider>

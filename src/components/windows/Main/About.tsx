@@ -1,24 +1,23 @@
 import { MouseEventHandler, useEffect } from "react";
+import CloseButton from "../../CloseButton";
 //prettier-ignore
 import { changeWindowState, handleMouseDown, handleMouseMovement, handleMouseUp } from "../../../utils/WindowFuncs";
 import { useDraggableHooks } from "../../../hooks/useDraggableHooks";
-import AboutIcons from "./AboutIcons";
-import CloseButton from "../../CloseButton";
 import { useOpenHooks } from "../../../contexts/WindowContext";
 
-function Window() {
+function About() {
   //prettier-ignore
   const { windowRef, isDragging, setIsDragging, position, setPosition, offSet, setOffSet } = useDraggableHooks();
   const { isOpen, setIsOpen } = useOpenHooks();
 
   useEffect(() => {
-    if (!localStorage.getItem("MainWindow")) {
+    if (!localStorage.getItem("About")) {
       //prettier-ignore
       const values: {isOpen: boolean, position: {x: number, y: number}} = {isOpen: true, position: { x: innerWidth / 2 - ((innerWidth / 6) * 3) / 2, y: innerHeight / 2 - ((innerHeight / 5) * 3) / 2 }};
-      
-      localStorage.setItem("MainWindow", JSON.stringify(values));
+
+      localStorage.setItem("About", JSON.stringify(values));
     }
-  }, []);  
+  }, []);
 
   useEffect(() => {
     const mouseMovement = (e: MouseEvent) => {
@@ -31,26 +30,23 @@ function Window() {
 
     window.addEventListener("mousemove", mouseMovement);
     window.addEventListener("mouseup", mouseUp);
-    window.addEventListener("blur", mouseUp);  
+    window.addEventListener("blur", mouseUp);
 
-    changeWindowState("MainWindow", isOpen, position, setIsOpen);                  
+    changeWindowState("MainWindow", isOpen, position, setIsOpen);
 
     return () => {
       window.removeEventListener("mousemove", mouseMovement);
       window.removeEventListener("mouseup", mouseUp);
-      window.removeEventListener("blur", mouseUp);      
+      window.removeEventListener("blur", mouseUp);
     };
   }, [isDragging, offSet]);
 
   const mouseDown: MouseEventHandler = (e) => {
     handleMouseDown({ e, windowRef, setOffSet, setIsDragging });
   };
-
   return (
     <main
-      className={`w-3/6 h-3/5 bg-gray-500 m-0 select-none ${
-        !isOpen ? "hidden" : "visible"
-      }`}
+      className={`w-3/6 h-3/5 bg-gray-500 m-0 select-none`}
       style={{ position: "absolute", left: position.x, top: position.y }}
       ref={windowRef}
     >
@@ -60,29 +56,11 @@ function Window() {
       >
         <h1 className="text-center text-white">Bem Vindo</h1>
       </nav>
-      <CloseButton windowName="MainWindow" isOpen={false} position={position} />
-      <section className="flex flex-col justify-center items-center w-full h-11/12">
-        <div className="flex flex-col items-center justify-center absolute top-50">
-          <h1 className="text-center text-5xl text-white font-semibold italic">
-            Prazer, me chamo <span className="text-red-300">André Victor</span>!
-          </h1>
-          <p className="text-white font-semibold pt-2 text-xl">
-            Desenvolvedor Front-End
-          </p>
-        </div>
-        <div className="grid grid-cols-5 place-items-center gap-8 absolute bottom-30">
-          <AboutIcons icon={"mdi:about"} title={"Sobre"} />
-          <AboutIcons icon={"raphael:pc"} title={"deskFolio"} />
-          <AboutIcons icon={"ri:links-fill"} title={"Links"} />
-          <AboutIcons icon={"mdi:faq"} title={"FAQ"} />
-          <AboutIcons
-            icon={"material-symbols:contact-support-rounded"}
-            title={"Contato"}
-          />
-        </div>
+      <CloseButton windowName="About" isOpen={false} position={position} />
+      <section className="flex flex-col justify-center items-center w-full h-11/12">                
       </section>
     </main>
   );
 }
 
-export default Window;
+export default About;

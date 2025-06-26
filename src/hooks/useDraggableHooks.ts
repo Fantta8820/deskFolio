@@ -4,7 +4,7 @@ import { setLocalStorageValues } from "../utils/WindowFuncs";
 
 export function useDraggableHooks() {
 
-  const items = setLocalStorageValues();
+  const items = setLocalStorageValues("MainWindow");
 
   const windowRef = useRef<HTMLDivElement | null>(null);
   const [isDragging, setIsDragging] = useState<Boolean>(false);

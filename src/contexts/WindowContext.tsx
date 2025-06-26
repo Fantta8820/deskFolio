@@ -12,8 +12,8 @@ const WindowContext = createContext<
 >(undefined);
 
 export function WindowProvider({ children }: { children: React.ReactNode }) {
-  const items = setLocalStorageValues();
-
+  const items = setLocalStorageValues("MainWindow");
+    
   const [isOpen, setIsOpen] = useState(items.isOpen);
   const [showMenu, setShowMenu] = useState(false);
 

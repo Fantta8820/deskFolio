@@ -13,8 +13,8 @@ function StartupButton() {
   useEffect(() => {
     const handleClick = (e: MouseEvent) => {
       //prettier-ignore
-      if (showMenu && menu.current && button.current && !menu.current.contains(e.target) && !button.current.contains(e.target)){        
-        setShowMenu(false);        
+      if (showMenu && menu.current && button.current && e.target instanceof Node && !menu.current.contains(e.target) && !button.current.contains(e.target)){        
+        setShowMenu(false);
       }
     };
 

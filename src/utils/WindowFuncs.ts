@@ -46,12 +46,12 @@ export function handleMouseUp(setIsDragging: (value: React.SetStateAction<Boolea
   setIsDragging(false);
 }
 
-export function setLocalStorageValues() {
+export function setLocalStorageValues(window: string) {
   let isOpen: boolean;
   let position: { x: number; y: number };
 
-  if (localStorage.getItem("MainWindow")) {
-    const items = localStorage.getItem("MainWindow");
+  if (localStorage.getItem(window)) {
+    const items = localStorage.getItem(window);
     isOpen = JSON.parse(items!).isOpen;
     position = JSON.parse(items!).position;
   } else {
@@ -60,6 +60,7 @@ export function setLocalStorageValues() {
       x: innerWidth / 2 - ((innerWidth / 6) * 3) / 2,
       y: innerHeight / 2 - ((innerHeight / 5) * 3) / 2,
     };
+    console.log("A");
   }
 
   return {
